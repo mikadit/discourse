@@ -118,12 +118,14 @@ task 'docker:test' do
         puts "travis_fold:start:ruby_tests" if ENV["TRAVIS"]
         unless ENV["SKIP_CORE"]
           params = []
+          params << "--profile"
           if ENV["BISECT"]
             params << "--bisect"
           end
           if ENV["RSPEC_SEED"]
             params << "--seed #{ENV["RSPEC_SEED"]}"
           end
+          puts "bundle exec rspec #{params.join(' ')}".strip
           @good &&= run_or_fail("bundle exec rspec #{params.join(' ')}".strip)
         end
 
